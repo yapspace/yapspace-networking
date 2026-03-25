@@ -26,6 +26,38 @@ impl NetClient {
         url.insert_str(0, &self.instance_api_url);
         self.http_client.get(url).send().await?.json().await
     }
+
+    pub async fn get_query<Q: serde::ser::Serialize, T: serde::de::DeserializeOwned>(
+        &self,
+        args: &[&str],
+        query: &Q,
+    ) -> Result<T, reqwest::Error> {
+        let mut url = args.join("/");
+        url.insert_str(0, &self.instance_api_url);
+        self.http_client
+            .get(url)
+            .query(query)
+            .send()
+            .await?
+            .json()
+            .await
+    }
+
+    pub async fn post<T: serde::ser::Serialize, R: serde::de::DeserializeOwned>(
+        &self,
+        args: &[&str],
+        data: &T,
+    ) -> Result<R, reqwest::Error> {
+        let mut url = args.join("/");
+        url.insert_str(0, &self.instance_api_url);
+        self.http_client
+            .post(url)
+            .json(data)
+            .send()
+            .await?
+            .json()
+            .await
+    }
 }
 
 pub struct Client {
