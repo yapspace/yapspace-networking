@@ -12,7 +12,7 @@ impl<'a> V10Impl<'a> {
 
     pub async fn modify_current_user(
         &self,
-        username: String,
+        username: Option<String>,
         avatar: Option<()>,
         banner: Option<()>,
     ) -> Result<(), reqwest::Error> {
