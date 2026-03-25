@@ -1,5 +1,6 @@
 use crate::NetClient;
 
+pub mod channel;
 pub mod guild;
 pub mod user;
 
